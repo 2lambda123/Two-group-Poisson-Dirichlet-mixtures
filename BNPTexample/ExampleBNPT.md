@@ -14,15 +14,10 @@ Let's take a look to the dataset: the golub table contains gene expression value
 
 ```r
 data(golub)
-class(golub)
-```
-
-```
-## [1] "matrix"
 ```
 
 ```r
-head(golub)
+head(golub[,1:7])
 ```
 
 ```
@@ -33,41 +28,6 @@ head(golub)
 ## [4,]  3.13533  0.21415  2.08754  2.23467  0.93811  2.24089  3.36576
 ## [5,]  2.76569 -1.27045  1.60433  1.53182  1.63728  1.85697  3.01847
 ## [6,]  2.64342  1.01416  1.70477  1.63845 -0.36075  1.73451  3.36576
-##          [,8]     [,9]    [,10]    [,11]    [,12]    [,13]    [,14]
-## [1,] -1.36832 -1.47649 -1.21583 -1.28137 -1.03209 -1.36149 -1.39979
-## [2,] -0.50803 -1.04533 -0.81257 -1.28137 -1.03209 -0.74005 -0.83161
-## [3,]  0.23381  0.23987  0.44201 -0.39560 -0.62533  0.45181  1.09519
-## [4,]  1.97859  2.66468 -1.21583  0.59110  3.26050 -1.36149  0.64180
-## [5,]  1.12853  2.17016 -1.21583 -1.10133  2.59982 -1.36149  0.22853
-## [6,]  0.96870  2.72368 -1.21583  1.20192  2.83418 -1.36149  1.32744
-##        [,15]    [,16]    [,17]    [,18]    [,19]    [,20]    [,21]
-## [1,] 0.17628 -1.40095 -1.56783 -1.20466 -1.24482 -1.60767 -1.06221
-## [2,] 0.41200 -1.27669 -0.74370 -1.20466 -1.02380 -0.38779 -1.06221
-## [3,] 1.09318  0.34300  0.20010  0.38992  0.00641  1.10932  0.21952
-## [4,] 2.32621 -1.40095 -1.56783  0.83502 -1.24482 -1.60767 -1.06221
-## [5,] 2.34494 -1.40095 -1.56783  0.94532 -1.24482 -1.60767 -1.06221
-## [6,] 1.52458 -1.40095 -1.56783 -0.23780 -1.24482 -1.60767 -1.06221
-##         [,22]    [,23]    [,24]    [,25]    [,26]    [,27]    [,28]
-## [1,] -1.12665 -1.20963 -1.48332 -1.25268 -1.27619 -1.23051 -1.43337
-## [2,] -1.12665 -1.20963 -1.12185 -0.65264 -1.27619 -1.23051 -1.18065
-## [3,] -0.72267  0.51690  0.28577  0.61937  0.20085  0.29278  0.26624
-## [4,]  3.69445  3.70837 -1.48332  2.36698 -1.27619  2.89604  0.71990
-## [5,]  3.52458  3.70837 -1.48332  1.79168 -1.27619  2.24892  0.02799
-## [6,]  3.25470  2.73916 -1.48332  2.23430 -1.27619  1.83594  1.31110
-##         [,29]    [,30]    [,31]    [,32]    [,33]    [,34]    [,35]
-## [1,] -1.08902 -1.29865 -1.26183 -1.44434  1.10147 -1.34158 -1.22961
-## [2,] -1.08902 -1.05094 -1.26183 -1.25918  0.97813 -0.79357 -1.22961
-## [3,] -0.43377 -0.10823 -0.29385  0.05067  1.69430 -0.12472  0.04609
-## [4,]  0.29598 -1.29865  2.76869  2.08960  0.70003  0.13854  1.75908
-## [5,] -1.08902 -1.29865  2.00518  1.17454 -1.47218 -1.34158  1.55086
-## [6,] -1.08902 -1.29865  1.73780  0.89347 -0.52883 -1.22168  0.90832
-##         [,36]   [,37]    [,38]
-## [1,] -0.75919 0.84905 -0.66465
-## [2,] -0.71792 0.45127 -0.45804
-## [3,]  0.24347 0.90774  0.46509
-## [4,]  0.06151 1.30297  0.58186
-## [5,] -1.18107 1.01596  0.15788
-## [6,] -1.39906 0.51266  1.36249
 ```
 
 After extracting a subsample fromt the dataset, we compute the z-scores for the gene expressions.
@@ -83,11 +43,7 @@ TT    <- tibble::enframe(Z,name = NULL)
 ggplot(TT)+geom_histogram(aes(x=value),col=4,fill="gray")
 ```
 
-```
-## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-```
-
-![](ExampleBNPT_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](ExampleBNPT_files/unnamed-chunk-3-1.png)<!-- -->
 
 We are now ready to apply the BNPTesting model. Let's set up the hyperpriors values...
 
@@ -116,7 +72,6 @@ res1 <- BNPtesting(NSIM = 10000,
                   verbose_step = 10, 
                   sed = i*100,
                   SM = .5,optThresh = .44,batch = 100) 
-res1$
 ```
 
 The model provides a list as output, containing the following elements:
@@ -151,80 +106,78 @@ plot(res1,TH=.01)
 ## This warning is displayed once per session.
 ```
 
-![](ExampleBNPT_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](ExampleBNPT_files/unnamed-chunk-7-1.png)<!-- -->
 
 ```r
 Ranking(res1,names = names,TH = .01)
 ```
 
-```
-## Loading required package: knitr
-```
 
-     Observation                                                                                                                                         PPI
----  ----------------------------------------------------------------------------------------------------------------------------------------------  -------
-4    THBD gene extracted from Human thrombomodulin gene                                                                                               1.0000
-9    KERATIN, TYPE II CYTOSKELETAL 6D                                                                                                                 1.0000
-20   Homolog of yeast IPP isomerase                                                                                                                   1.0000
-37   Lamin B gene extracted from Human lamin B mRNA                                                                                                   1.0000
-39   EVPL Envoplakin                                                                                                                                  1.0000
-42   JTV-1 (JTV-1) mRNA                                                                                                                               1.0000
-44   FAU Finkel-Biskis-Reilly murine sarcoma virus (FBR-MuSV) ubiquitously expressed (fox derived)                                                    1.0000
-54   CANX Calnexin                                                                                                                                    1.0000
-56   UBE1 Ubiquitin activating enzyme E1                                                                                                              1.0000
-64   Clone 161455 breast expressed mRNA from chromosome X                                                                                             1.0000
-48   GB DEF = Selenium-binding protein (hSBP) mRNA                                                                                                    0.9999
-63   Ionotropic ATP receptor P2X5a mRNA                                                                                                               0.9999
-30   GB DEF = Lymphocyte-specific protein 1 (LSP1) mRNA                                                                                               0.9997
-21   KIAA0272 gene, partial cds                                                                                                                       0.9996
-26   ARF6 ADP-ribosylation factor 6                                                                                                                   0.9991
-61   IGB Immunoglobulin-associated beta (B29)                                                                                                         0.9991
-55   Rhodanese                                                                                                                                        0.9989
-58   SCYA4 Small inducible cytokine A4 (homologous to mouse Mip-1b)                                                                                   0.9985
-60   GRO3 GRO3 oncogene                                                                                                                               0.9984
-57   (clone HSNME29) CGRP type 1 receptor mRNA                                                                                                        0.9983
-22   Surfacant Protein Sp-A2 Delta                                                                                                                    0.9981
-38   CPA3 Carboxypeptidase A3 (mast cell)                                                                                                             0.9981
-11   FKHR Homolog 1 of Drosophila forkhead (rhabdomyosarcoma)                                                                                         0.9980
-29   KIAA0020 gene                                                                                                                                    0.9977
-49   BPGM 2,3-bisphosphoglycerate mutase                                                                                                              0.9976
-59   K+ channel beta 2 subunit mRNA                                                                                                                   0.9973
-28   Actin bundling protein mRNA                                                                                                                      0.9969
-12   THYMOSIN BETA-10                                                                                                                                 0.9948
-25   GB DEF = Neurofilament triplet L protein mRNA, partial cds                                                                                       0.9946
-43   NF-E2 protein (NF-E2) mRNA                                                                                                                       0.9944
-31   NF-IL6-beta protein mRNA                                                                                                                         0.9936
-13   Mac-2 binding protein mRNA                                                                                                                       0.9933
-34   OR17-40 gene extracted from Human olfactory receptor gene cluster on chromosome 17, OR17-228 and OR17-40, and OR17-24 and OR17-25 pseudogenes    0.9931
-8    Disintegrin-metalloprotease (partial)                                                                                                            0.9923
-53   LST1 mRNA, cLST1/E splice variant                                                                                                                0.9919
-50   EPHX2 Epoxide hydrolase 2, cytoplasmic                                                                                                           0.9918
-45   PPP2R4 Protein phosphatase 2A, regulatory subunit B' alpha-1                                                                                     0.9914
-51   Splicing factor (CC1.3) mRNA                                                                                                                     0.9909
-3    Cyclin G1 mRNA                                                                                                                                   0.9908
-16   PRKACB gene (protein kinase C-beta-2) extracted from Human protein kinase C beta 1 and 2 genes, next to last                                     0.9897
-19   IL4R Interleukin 4 receptor                                                                                                                      0.9890
-52   POU2F2 POU domain, class 2, transcription factor 2                                                                                               0.9890
-36   KIAA0041 gene, partial cds                                                                                                                       0.9866
-40   ANX4 Annexin IV (placental anticoagulant protein II)                                                                                             0.9865
-23   (clone S31i125) mRNA, 3' end of cds                                                                                                              0.9853
-33   GB DEF = Insulin-like growth factor binding protein-2 [human, placenta, Genomic, 1342 nt, segment 4 of 4]                                        0.9850
-15   TTF1 Transcription termination factor, RNA polymerase I                                                                                          0.9836
-5    XP-C repair complementing protein (p58/HHR23B)                                                                                                   0.9829
-46   SDH2 Succinate dehydrogenase 2, flavoprotein (Fp) subunit                                                                                        0.9826
-35   MUF1 protein                                                                                                                                     0.9818
-14   Alpha 4 protein                                                                                                                                  0.9795
-17   PRKCA Protein kinase C, alpha                                                                                                                    0.9793
-47   GUANYLATE CYCLASE SOLUBLE, BETA-1 CHAIN                                                                                                          0.9791
-32   No cluster in current Unigene and no Genbank entry for U77396 (qualifier U77396_at)                                                              0.9789
-10   EPLG8 Eph-related receptor tyrosine kinase ligand 8)                                                                                             0.9781
-7    KNP-Ia                                                                                                                                           0.9768
-2    MITOTIC KINESIN-LIKE PROTEIN-1                                                                                                                   0.9767
-6    TP53 Tumor protein p53 (Li-Fraumeni syndrome)                                                                                                    0.9756
-1    ARHG Ras homolog gene family, member G (rho G)                                                                                                   0.9747
-18   CHL1 protein                                                                                                                                     0.9734
-27   Acidic hair keratin 1                                                                                                                            0.9734
-24   ATM Ataxia telangiectasia mutated (includes complementation groups A, C and D)                                                                   0.9626
-41   PR264 gene                                                                                                                                       0.9618
-62   Nuclear factor NF90 mRNA                                                                                                                         0.9613
+|   |Observation                                                                                                                                   |    PPI|
+|:--|:---------------------------------------------------------------------------------------------------------------------------------------------|------:|
+|4  |THBD gene extracted from Human thrombomodulin gene                                                                                            | 1.0000|
+|9  |KERATIN, TYPE II CYTOSKELETAL 6D                                                                                                              | 1.0000|
+|20 |Homolog of yeast IPP isomerase                                                                                                                | 1.0000|
+|37 |Lamin B gene extracted from Human lamin B mRNA                                                                                                | 1.0000|
+|39 |EVPL Envoplakin                                                                                                                               | 1.0000|
+|42 |JTV-1 (JTV-1) mRNA                                                                                                                            | 1.0000|
+|44 |FAU Finkel-Biskis-Reilly murine sarcoma virus (FBR-MuSV) ubiquitously expressed (fox derived)                                                 | 1.0000|
+|54 |CANX Calnexin                                                                                                                                 | 1.0000|
+|56 |UBE1 Ubiquitin activating enzyme E1                                                                                                           | 1.0000|
+|64 |Clone 161455 breast expressed mRNA from chromosome X                                                                                          | 1.0000|
+|48 |GB DEF = Selenium-binding protein (hSBP) mRNA                                                                                                 | 0.9999|
+|63 |Ionotropic ATP receptor P2X5a mRNA                                                                                                            | 0.9999|
+|30 |GB DEF = Lymphocyte-specific protein 1 (LSP1) mRNA                                                                                            | 0.9997|
+|21 |KIAA0272 gene, partial cds                                                                                                                    | 0.9996|
+|26 |ARF6 ADP-ribosylation factor 6                                                                                                                | 0.9991|
+|61 |IGB Immunoglobulin-associated beta (B29)                                                                                                      | 0.9991|
+|55 |Rhodanese                                                                                                                                     | 0.9989|
+|58 |SCYA4 Small inducible cytokine A4 (homologous to mouse Mip-1b)                                                                                | 0.9985|
+|60 |GRO3 GRO3 oncogene                                                                                                                            | 0.9984|
+|57 |(clone HSNME29) CGRP type 1 receptor mRNA                                                                                                     | 0.9983|
+|22 |Surfacant Protein Sp-A2 Delta                                                                                                                 | 0.9981|
+|38 |CPA3 Carboxypeptidase A3 (mast cell)                                                                                                          | 0.9981|
+|11 |FKHR Homolog 1 of Drosophila forkhead (rhabdomyosarcoma)                                                                                      | 0.9980|
+|29 |KIAA0020 gene                                                                                                                                 | 0.9977|
+|49 |BPGM 2,3-bisphosphoglycerate mutase                                                                                                           | 0.9976|
+|59 |K+ channel beta 2 subunit mRNA                                                                                                                | 0.9973|
+|28 |Actin bundling protein mRNA                                                                                                                   | 0.9969|
+|12 |THYMOSIN BETA-10                                                                                                                              | 0.9948|
+|25 |GB DEF = Neurofilament triplet L protein mRNA, partial cds                                                                                    | 0.9946|
+|43 |NF-E2 protein (NF-E2) mRNA                                                                                                                    | 0.9944|
+|31 |NF-IL6-beta protein mRNA                                                                                                                      | 0.9936|
+|13 |Mac-2 binding protein mRNA                                                                                                                    | 0.9933|
+|34 |OR17-40 gene extracted from Human olfactory receptor gene cluster on chromosome 17, OR17-228 and OR17-40, and OR17-24 and OR17-25 pseudogenes | 0.9931|
+|8  |Disintegrin-metalloprotease (partial)                                                                                                         | 0.9923|
+|53 |LST1 mRNA, cLST1/E splice variant                                                                                                             | 0.9919|
+|50 |EPHX2 Epoxide hydrolase 2, cytoplasmic                                                                                                        | 0.9918|
+|45 |PPP2R4 Protein phosphatase 2A, regulatory subunit B' alpha-1                                                                                  | 0.9914|
+|51 |Splicing factor (CC1.3) mRNA                                                                                                                  | 0.9909|
+|3  |Cyclin G1 mRNA                                                                                                                                | 0.9908|
+|16 |PRKACB gene (protein kinase C-beta-2) extracted from Human protein kinase C beta 1 and 2 genes, next to last                                  | 0.9897|
+|19 |IL4R Interleukin 4 receptor                                                                                                                   | 0.9890|
+|52 |POU2F2 POU domain, class 2, transcription factor 2                                                                                            | 0.9890|
+|36 |KIAA0041 gene, partial cds                                                                                                                    | 0.9866|
+|40 |ANX4 Annexin IV (placental anticoagulant protein II)                                                                                          | 0.9865|
+|23 |(clone S31i125) mRNA, 3' end of cds                                                                                                           | 0.9853|
+|33 |GB DEF = Insulin-like growth factor binding protein-2 [human, placenta, Genomic, 1342 nt, segment 4 of 4]                                     | 0.9850|
+|15 |TTF1 Transcription termination factor, RNA polymerase I                                                                                       | 0.9836|
+|5  |XP-C repair complementing protein (p58/HHR23B)                                                                                                | 0.9829|
+|46 |SDH2 Succinate dehydrogenase 2, flavoprotein (Fp) subunit                                                                                     | 0.9826|
+|35 |MUF1 protein                                                                                                                                  | 0.9818|
+|14 |Alpha 4 protein                                                                                                                               | 0.9795|
+|17 |PRKCA Protein kinase C, alpha                                                                                                                 | 0.9793|
+|47 |GUANYLATE CYCLASE SOLUBLE, BETA-1 CHAIN                                                                                                       | 0.9791|
+|32 |No cluster in current Unigene and no Genbank entry for U77396 (qualifier U77396_at)                                                           | 0.9789|
+|10 |EPLG8 Eph-related receptor tyrosine kinase ligand 8)                                                                                          | 0.9781|
+|7  |KNP-Ia                                                                                                                                        | 0.9768|
+|2  |MITOTIC KINESIN-LIKE PROTEIN-1                                                                                                                | 0.9767|
+|6  |TP53 Tumor protein p53 (Li-Fraumeni syndrome)                                                                                                 | 0.9756|
+|1  |ARHG Ras homolog gene family, member G (rho G)                                                                                                | 0.9747|
+|18 |CHL1 protein                                                                                                                                  | 0.9734|
+|27 |Acidic hair keratin 1                                                                                                                         | 0.9734|
+|24 |ATM Ataxia telangiectasia mutated (includes complementation groups A, C and D)                                                                | 0.9626|
+|41 |PR264 gene                                                                                                                                    | 0.9618|
+|62 |Nuclear factor NF90 mRNA                                                                                                                      | 0.9613|
+
 
