@@ -101,10 +101,6 @@ The most interesting part is the Posterior Probaiblity of Inclusion in the alter
 plot(res1,TH=.01)
 ```
 
-```
-## Warning: `as.tibble()` is deprecated, use `as_tibble()` (but mind the new semantics).
-## This warning is displayed once per session.
-```
 
 ![](ExampleBNPT_files/unnamed-chunk-7-1.png)<!-- -->
 
