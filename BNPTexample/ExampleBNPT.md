@@ -1,4 +1,5 @@
-## BNPTesting: tutorial 
+## Two-group Poisson-Dirichlet mixtures for multiple testing
+## Tutorial 
 
 In this tutorial we apply our methodology to a subsample of the `golub` dataset, which can be found in the `multtest` package. The package can be installed and loaded with the following lines:
 
