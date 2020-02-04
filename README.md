@@ -95,7 +95,7 @@ For example:
 qplot(y=res1$RhoCon,x=1:10000, geom = "line")+theme_bw()
 ```
 
-![](Example2PPDfiles/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](Example2PPDfiles/unnamed-chunk-6-1.png)<!-- -->
 
 The most interesting part is the Posterior Probaiblity of Inclusion in the alternative process (PPI). We classify each observation as relevant if its PPI is above a specified threshold. We choose the threshold controlling the Bayesian FDR (Newton, 2004). We can visualize the results using the `plot` function defined for the `BNPT2PDD` class. We finally derive the ranking of the relevant genes.
 
