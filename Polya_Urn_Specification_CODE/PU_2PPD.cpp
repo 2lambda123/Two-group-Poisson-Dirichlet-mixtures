@@ -128,6 +128,8 @@ arma::colvec NIGmix_generator_sample(arma::colvec y, double m1, double V1, doubl
   return TH;
 }
 
+
+/*
 // [[Rcpp::export]]
 arma::colvec NindepIG_generator_sample(arma::colvec y, double m0, double s0, double previous_variance, double a, double b){
   double sn = s0 * previous_variance / ( s0 + previous_variance);
@@ -137,7 +139,19 @@ arma::colvec NindepIG_generator_sample(arma::colvec y, double m0, double s0, dou
   TH[1] = 1/R::rgamma(.5+a, 1/( b+.5*accu((y-TH[0])%(y-TH[0]))) );
   return TH;
 }
+*/
 
+// [[Rcpp::export]]
+arma::colvec NindepIG_generator_sample(arma::colvec y, double m0, double s0, double previous_variance, double a, double b){
+  int n1=y.n_elem;
+  double sn = s0 * previous_variance / ( n1*s0 + previous_variance);
+  double mn = (s0*accu(y)+m0*previous_variance)/(n1*s0+previous_variance);
+  arma::colvec TH(2);
+  TH[0] = R::rnorm(mn, sqrt( sn ));
+  TH[1] = 1/R::rgamma(.5*n1+a, 1/( b+.5*accu((y-TH[0])%(y-TH[0]))) );
+  return TH;
+}
+  
 
 
 // this gets unique rows from a matrix 
