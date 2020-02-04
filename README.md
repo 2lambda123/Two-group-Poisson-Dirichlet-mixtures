@@ -32,7 +32,6 @@ head(golub[,1:7])
 
 We compute the z-scores for the gene expressions. You can do it easily:
 
-
 ```r
 teststat = mt.teststat(golub, golub.cl)
 set.seed(1234)
@@ -45,10 +44,10 @@ ggplot(TT)+geom_histogram(aes(x=value),col=4,fill="gray")
 
 ![](Example2PPDfiles/unnamed-chunk-3-1.png)<!-- -->
 
-To obtain results in a timely manner, we load a subsample of the data, contained in `golub_subs.RDS`.
+To obtain results in a timely manner, we load a subsample of 500 z-scores, contained in `golub_subs_500.RDS`.
 
 ```r
-Z <- read.RDS("golub_subs_500.RDS")
+Z <- read.RDS("Example2PPDfiles/golub_subs_500.RDS")
 ```
 We are now ready to apply the BNPTesting model. Let's set up the hyperpriors values...
 
@@ -70,12 +69,12 @@ prior_par11 <- list(m0=0,   s0=1,
 res1 <- BNPtesting(NSIM = 10000, 
                   burn_in = 10000, 
                   thinning = 1, 
-                  y= Z, 
+                  y= Z,                                          # data
                   prior_par = prior_par11, 
                   verbose = T,
                   verbose_step = 10, 
                   sed = i*100,
-                  SM = .5,optThresh = .44,batch = 100) 
+                  SM = .5,optThresh = .44,batch = 100)           # adaptive MH parameters
 ```
 
 The model provides a list as output, containing the following elements:
