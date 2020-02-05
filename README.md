@@ -1,4 +1,4 @@
-## Two-group Poisson-Dirichlet mixtures for multiple testing
+# Two-group Poisson-Dirichlet mixtures for multiple testing
 ## Tutorial 
 
 In this tutorial we apply our methodology to a subsample of the `golub` dataset. The entire dataset can be found in the `multtest` package. The package can be installed and loaded with the following lines:
