@@ -49,32 +49,43 @@ To obtain results in a timely manner, we load a subsample of 500 z-scores, conta
 ```r
 Z <- read.RDS("Example2PPDfiles/golub_subs_500.RDS")
 ```
-We are now ready to apply the BNPTesting model. Let's set up the hyperpriors values...
+We are now ready to apply the BNPTesting model. First, we source the code:
 
 ```r
-prior_par11 <- list(m0=0,   s0=1, 
+Rcpp::sourceCpp("Polya_Urn_Specification_CODE/PU_2PPD.cpp")
+source("Polya_Urn_Specification_CODE/PU_2PPD.R")
+source("Polya_Urn_Specification_CODE/PostProcessing_2PPD.R")
+```
+After the code is sourced, we need to set up the hyperpriors values:
+
+```r
+prior_par11 <- list(# Base measures
+                    m0=0,   s0=1, 
+                    a_0 = 5, b_0 = .2,
                     m1=3,   V1=3, 
                     a1= 1, b1=1, 
+                    # Beta on mixture proportion
                     a_rho=1,  b_rho=9,
+                    # Parameters of the process
                     theta0=1, theta1=1, 
-                    sigma0=0.75, sigma1=0.1, # parameters of the process
-                    a_0 = 5, b_0 = .2,
+                    sigma0=0.75, sigma1=0.1, 
+                    # Non-local distribution
                     kappaNLP=3, s1=2)
 ```
 
-...and run the model!
+And then we can run the model!
 
 
 ```r
-res1 <- BNPtesting(NSIM = 10000, 
-                  burn_in = 10000, 
-                  thinning = 1, 
-                  y= Z,                                          # data
-                  prior_par = prior_par11, 
-                  verbose = T,
-                  verbose_step = 10, 
-                  sed = i*100,
-                  SM = .5,optThresh = .44,batch = 100)           # adaptive MH parameters
+res1 <- BNPtesting(NSIM = 10000,                                  # number of iterations
+                   burn_in = 10000,                               # burn in period
+                   thinning = 1,                                        
+                   y= Z,                                          # data
+                   prior_par = prior_par11,                       # hyperpriors' values
+                   verbose = T,                                   # should it print the progress of the chain?
+                   verbose_step = 10,                             # how frequently?
+                   sed = 1234,                                    # random seed
+                   SM = .5,optThresh = .44,batch = 100)           # adaptive MH parameters
 ```
 
 The model provides a list as output, containing the following elements:
