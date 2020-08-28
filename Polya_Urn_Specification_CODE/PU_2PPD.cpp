@@ -445,7 +445,7 @@ double log_NIGMIX(double m, double V,
   return(L);    
 }
 
-
+/*
 // [[Rcpp::export]]
 double ffm(double m, double k, double s){
   double a = pow(m,2*k) * exp(-(m * m)/(2 * s));
@@ -457,7 +457,7 @@ double ABS_VAL(double m, double k, double s){
   double A = ffm(m,k,s) + ffm(-m,k,s);
   return(A);
 }
-
+*/
 
 // [[Rcpp::export]]
 double unnorm_LOGPOST_MH_rev(double m, double V, double s1,
